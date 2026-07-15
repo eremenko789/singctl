@@ -1,41 +1,54 @@
 # GitHub Spec Kit в этом репозитории
 
-Проект ведётся по Spec-Driven Development с помощью структуры [GitHub Spec Kit](https://github.com/github/spec-kit).
+Проект готовится к Spec-Driven Development по [GitHub Spec Kit](https://github.com/github/spec-kit).
 
-## Карта артефактов
+## Что уже есть (отправные материалы)
+
+Это **не** результаты `/speckit.specify|plan|tasks`, а вход и bootstrap:
 
 ```text
 .specify/
-├── memory/constitution.md   # Неизменяемые принципы проекта
-└── templates/               # Шаблоны Spec Kit (reference)
+├── memory/constitution.md   # принципы (в т.ч. Makefile/.env, OpenAPI codegen)
+└── templates/               # пустые шаблоны Spec Kit (как после specify init)
 
 docs/
-├── tz/                      # Исходное ТЗ (вход)
-├── api/                     # OpenAPI + wiki snapshot
-├── openapi-codegen.md       # Повторяемые операции codegen
-└── spec-kit.md              # Этот файл
+├── tz/                      # исходное ТЗ (вход для specify)
+├── api/                     # OpenAPI-снимок + coverage matrix + wiki
+├── openapi-codegen.md
+├── makefile.md
+└── spec-kit.md              # этот файл
 
-specs/001-singctl-cli-tui/
-├── spec.md                  # WHAT: user stories + requirements
-├── plan.md                  # HOW: стек, архитектура
-├── research.md              # Решения Phase 0
-├── data-model.md            # Сущности
-├── quickstart.md            # Сценарии проверки
-├── contracts/openapi.yaml   # Контракт API для фичи
-├── checklists/requirements.md
-└── tasks.md                 # Исполняемые задачи
+Makefile
+.env.example
 ```
 
-## Workflow
+## Чего здесь специально нет
 
-1. **Constitution** — принципы в `.specify/memory/constitution.md`.
-2. **Specify** — `specs/.../spec.md` (что строить).
-3. **Plan** — `plan.md` + `research.md` + `data-model.md` + `contracts/` + `quickstart.md`.
-4. **Tasks** — `tasks.md`.
-5. **Implement** — реализация по задачам (отдельные PR).
+Каталог `specs/<NNN>-*/` с заполненными `spec.md`, `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md`, `tasks.md`, checklists **не создаётся вручную**. Его порождает Spec Kit:
 
-Исходное ТЗ (`docs/tz/`) сохраняется как исторический вход; рабочие артефакты для агентов и разработки — в `specs/`.
+| Команда | Результат |
+|---|---|
+| `/speckit.constitution` | уточнение `.specify/memory/constitution.md` |
+| `/speckit.specify` | `specs/<NNN>-name/spec.md` |
+| `/speckit.clarify` | правки spec |
+| `/speckit.plan` | `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md` |
+| `/speckit.checklist` | `checklists/` |
+| `/speckit.tasks` | `tasks.md` |
+| `/speckit.implement` | код |
+
+Рекомендуемый поток:  
+`constitution → specify → clarify → plan → checklist → tasks → analyze → implement → converge`  
+(см. [quickstart Spec Kit](https://github.github.com/spec-kit/quickstart.html)).
+
+## Вход для `/speckit.specify`
+
+Указывать агенту:
+
+- продуктовое ТЗ: `docs/tz/singularityapp-cli-tui-tz.md`
+- полное покрытие API: `docs/api/coverage.md` (все 51 operations)
+- OpenAPI: `docs/api/openapi.yaml`
+- стек и ограничения: `.specify/memory/constitution.md` (Go, codegen, Makefile)
 
 ## Именование фич
 
-Каталоги: `specs/NNN-short-name/` (например `001-singctl-cli-tui`). Новые фичи — следующие номера.
+После specify каталоги будут вида `specs/NNN-short-name/`.

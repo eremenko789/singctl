@@ -5,17 +5,28 @@
 | Документ | Назначение |
 |---|---|
 | [tz/singularityapp-cli-tui-tz.md](./tz/singularityapp-cli-tui-tz.md) | Исходное продуктовое ТЗ |
-| [api/openapi.yaml](./api/openapi.yaml) | Снимок OpenAPI 3.0 SingularityApp REST API |
+| [api/coverage.md](./api/coverage.md) | Матрица покрытия всех 51 REST operations |
+| [api/openapi.yaml](./api/openapi.yaml) | Снимок OpenAPI 3.0 |
 | [api/wiki-rest-api.md](./api/wiki-rest-api.md) | Текстовый снимок wiki REST API |
-| [openapi-codegen.md](./openapi-codegen.md) | Как обновлять OpenAPI и генерировать Go-клиент |
-| [spec-kit.md](./spec-kit.md) | Как уложены артефакты GitHub Spec Kit в репозитории |
+| [openapi-codegen.md](./openapi-codegen.md) | Обновление OpenAPI и codegen |
+| [makefile.md](./makefile.md) | Make-таргеты и `.env` |
+| [spec-kit.md](./spec-kit.md) | Отправные файлы vs результаты Spec Kit |
 
 ## Spec Kit
 
-Методология: [GitHub Spec Kit](https://github.com/github/spec-kit) (Spec → Plan → Tasks → Implement).
+Методология: [GitHub Spec Kit](https://github.com/github/spec-kit).
 
 - Конституция: [`.specify/memory/constitution.md`](../.specify/memory/constitution.md)
-- Фича MVP/продукт: [`specs/001-singctl-cli-tui/`](../specs/001-singctl-cli-tui/)
+- Артефакты `specs/` появятся после `/speckit.specify` и следующих команд — см. [spec-kit.md](./spec-kit.md)
+
+## Автоматизация
+
+```bash
+cp .env.example .env
+make help
+make openapi-fetch
+make api-coverage-check
+```
 
 ## Внешние источники API
 
