@@ -13,9 +13,10 @@
 
 # Code coverage profiles and other test artifacts
 *.out
-coverage.*
+/coverage.*
 *.coverprofile
 profile.cov
+# Note: docs/api/coverage.md is documentation (API matrix), not a coverage profile.
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
@@ -24,8 +25,12 @@ profile.cov
 go.work
 go.work.sum
 
-# env file
+# env file (локальные секреты / параметры Make)
 .env
+.env.local
+
+# build output
+/bin/
 
 # Editor/IDE
 # .idea/
