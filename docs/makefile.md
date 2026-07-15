@@ -16,7 +16,7 @@ make help
 | `api-coverage-check` | Проверить, что в снимке 51 operation (актуальный v2) |
 | `generate` | Генерация Go-клиента из OpenAPI (после появления `api/oapi-codegen.yaml`) |
 | `build` | Сборка `singctl` |
-| `test` | `go test ./...` |
+| `test` | `go test` **с coverage**; MUST не допускать падения покрытия (constitution IX) |
 | `smoke` | Лёгкий smoke против API (нужен `SINGCTL_TOKEN` в `.env`) |
 
 Подробности codegen: [openapi-codegen.md](./openapi-codegen.md). Принцип: constitution §VIII.

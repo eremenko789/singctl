@@ -108,6 +108,9 @@
 <!--
   ACTION REQUIRED: Define measurable success criteria.
   These must be technology-agnostic and measurable.
+  Implementation discipline (TDD, coverage gates) is governed by constitution IX
+  and verified in plan/tasks — do not restate Make/CI details here unless the
+  feature itself is about the test harness.
 -->
 
 ### Measurable Outcomes

@@ -40,7 +40,21 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Fill status (PASS / PASS N/A / FAIL) against `.specify/memory/constitution.md`:
+
+| Gate | Principle | Status | Notes |
+|------|-----------|--------|-------|
+| G1 | Spec-Driven Development | | Artefacts via Spec Kit only |
+| G2 | Go Single Binary | | One static CLI/TUI binary |
+| G3 | OpenAPI-Generated API Client | | No hand-written HTTP CRUD; N/A if no API work |
+| G4 | Shared Client for CLI and TUI | | No duplicated business logic in UI |
+| G5 | Scriptability First | | Exit codes, output formats, stdout/stderr |
+| G6 | Honest API Boundaries | | No promises beyond REST API |
+| G7 | Security of Credentials | | Token storage/masking; secrets not in git |
+| G8 | Makefile + `.env` | | Recurring work via `make`; `.env` not committed |
+| G9 | Test-Driven Development & Coverage | | TDD order; `make test` with coverage; no coverage drop |
+
+Post-design: re-check all gates. FAIL requires entry in Complexity Tracking or a plan change.
 
 ## Project Structure
 

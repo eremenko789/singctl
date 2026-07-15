@@ -8,7 +8,7 @@
 
 ```text
 .specify/
-├── memory/constitution.md   # принципы (в т.ч. Makefile/.env, OpenAPI codegen)
+├── memory/constitution.md   # принципы (Makefile/.env, OpenAPI codegen, TDD/coverage)
 └── templates/               # пустые шаблоны Spec Kit (как после specify init)
 
 docs/
@@ -49,7 +49,7 @@ Makefile
 - продуктовое ТЗ: `docs/tz/singularityapp-cli-tui-tz.md` (разделы из карточки фичи)
 - полное покрытие API: `docs/api/coverage.md` (все 51 operations)
 - OpenAPI: `docs/api/openapi.yaml`
-- стек и ограничения: `.specify/memory/constitution.md` (Go, codegen, Makefile)
+- стек и ограничения: `.specify/memory/constitution.md` (Go, codegen, Makefile, TDD/coverage)
 
 ## Именование фич
 
