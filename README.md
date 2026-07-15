@@ -14,6 +14,7 @@ CLI и TUI-клиент для [SingularityApp REST API](https://singularity-app
 | [`docs/makefile.md`](./docs/makefile.md) | Make + `.env` |
 | [`.specify/memory/constitution.md`](./.specify/memory/constitution.md) | Принципы |
 | [`docs/spec-kit.md`](./docs/spec-kit.md) | Что bootstrap, что Spec Kit |
+| [`docs/feature-backlog.md`](./docs/feature-backlog.md) | Фичи F01–F39 для `/speckit-specify` |
 
 ## Стек (constitution)
 
@@ -38,10 +39,14 @@ make api-coverage-check
 
 ## Следующий шаг (Spec Kit)
 
+Брать **одну** фичу из [`docs/feature-backlog.md`](./docs/feature-backlog.md) (старт с F01):
+
 ```text
-/speckit.specify …  # на основе docs/tz + docs/api/coverage.md
-/speckit.plan …
-/speckit.tasks …
+/speckit-specify …  # карточка Fxx + docs/tz + coverage + constitution
+/speckit-clarify …
+/speckit-plan …
+/speckit-tasks …
+/speckit-implement …
 ```
 
 ## Лицензия

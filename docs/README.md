@@ -11,12 +11,14 @@
 | [openapi-codegen.md](./openapi-codegen.md) | Обновление OpenAPI и codegen |
 | [makefile.md](./makefile.md) | Make-таргеты и `.env` |
 | [spec-kit.md](./spec-kit.md) | Отправные файлы vs результаты Spec Kit |
+| [feature-backlog.md](./feature-backlog.md) | Разбивка ТЗ на фичи F01–F39 для `/speckit-specify` |
 
 ## Spec Kit
 
 Методология: [GitHub Spec Kit](https://github.com/github/spec-kit).
 
 - Конституция: [`.specify/memory/constitution.md`](../.specify/memory/constitution.md)
+- Бэклог фич: [feature-backlog.md](./feature-backlog.md) — очередь для отдельных `/speckit-specify`
 - Артефакты `specs/` появятся после `/speckit.specify` и следующих команд — см. [spec-kit.md](./spec-kit.md)
 
 ## Автоматизация
