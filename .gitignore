@@ -13,9 +13,10 @@
 
 # Code coverage profiles and other test artifacts
 *.out
-coverage.*
+/coverage.*
 *.coverprofile
 profile.cov
+# Note: docs/api/coverage.md is documentation (API matrix), not a coverage profile.
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
