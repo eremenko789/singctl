@@ -32,6 +32,12 @@ go.work.sum
 # build output
 /bin/
 
+# OS / temp
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+
 # Editor/IDE
-# .idea/
-# .vscode/
+.idea/
+.vscode/

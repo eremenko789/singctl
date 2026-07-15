@@ -1,0 +1,38 @@
+# Repo-local config (overrides ~/.config/pre-commit/pre-commit-config.yaml).
+# Module-mode Go hooks only — *-pkg uses GOPATH and fails with go.mod.
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-added-large-files
+        args: [--maxkb=1024]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
+
+  - repo: https://github.com/TekWizely/pre-commit-golang
+    rev: v1.0.0-rc.4
+    hooks:
+      - id: go-build-mod
+      - id: go-build-repo-mod
+      - id: go-mod-tidy
+      - id: go-mod-tidy-repo
+      - id: go-test-mod
+      - id: go-test-repo-mod
+      - id: go-fmt
+      - id: go-fmt-repo
+      - id: go-lint
