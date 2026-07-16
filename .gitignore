@@ -14,6 +14,7 @@
 # Code coverage profiles and other test artifacts
 *.out
 /coverage.*
+coverage.nogenerated.out
 *.coverprofile
 profile.cov
 # Note: docs/api/coverage.md is documentation (API matrix), not a coverage profile.

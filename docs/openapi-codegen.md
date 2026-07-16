@@ -19,20 +19,32 @@ Auth: `Authorization: Bearer <token>` (OpenAPI scheme `rest-token`).
 
 ## Команды
 
+Таргеты **независимы** (нет Make-prerequisites друг на друга). Рекомендуемый порядок:
+
+```text
+make openapi-fetch → make api-coverage-check → make generate
+```
+
 ```bash
 cp .env.example .env          # при необходимости задать API_BASE_URL / SINGCTL_TOKEN
-make openapi-fetch            # обновить снимок
-make api-coverage-check       # 51 operations + наличие coverage.md
-make generate                 # после появления api/oapi-codegen.yaml
+make openapi-fetch            # атомарно обновить пару JSON+YAML
+make api-coverage-check       # ops == EXPECTED_API_OPS (51) + наличие coverage.md
+make generate                 # oapi-codegen → internal/apiclient/client.gen.go
 make smoke                    # нужен SINGCTL_TOKEN
 ```
 
-Эквивалент вручную (не предпочтительно):
+`openapi-fetch` скачивает оба файла во временные пути и только затем заменяет целевые; при сбое второго скачивания прежняя пара снимка не рассинхронизируется.
+
+`api-coverage-check` сверяет **только** число HTTP operations в JSON с `EXPECTED_API_OPS` и наличие файла `docs/api/coverage.md` (без парсинга строк матрицы / operationId).
+
+Эквивалент вручную (не предпочтительно; без атомарности):
 
 ```bash
 curl -fsSL "https://api.singularity-app.com/v2/api-json" -o docs/api/openapi.json
 curl -fsSL "https://api.singularity-app.com/v2/api-yaml" -o docs/api/openapi.yaml
 ```
+
+Предпочтительный helper: `scripts/openapi_fetch.sh`.
 
 ## Генерация Go-клиента
 
@@ -42,7 +54,7 @@ curl -fsSL "https://api.singularity-app.com/v2/api-yaml" -o docs/api/openapi.yam
 go install github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
 ```
 
-Ожидаемый конфиг `api/oapi-codegen.yaml` (создаётся при реализации):
+Конфиг `api/oapi-codegen.yaml`:
 
 ```yaml
 package: apiclient
@@ -52,7 +64,7 @@ generate:
 output: internal/apiclient/client.gen.go
 ```
 
-Затем `make generate`.
+Затем `make generate` (офлайн, по закоммиченному YAML-снимку).
 
 Ручные DTO/HTTP CRUD запрещены (constitution). Допускаются только адаптеры над codegen.
 
@@ -62,7 +74,7 @@ output: internal/apiclient/client.gen.go
 |---|---|
 | `docs/api/openapi.yaml` / `.json` | Да |
 | `docs/api/coverage.md` | Да (обновлять вместе со снимком) |
-| `internal/apiclient/*.gen.go` | Да (когда появятся) |
+| `internal/apiclient/*.gen.go` | Да |
 | `api/oapi-codegen.yaml` | Да |
 | `.env` / токены | Нет |
 
