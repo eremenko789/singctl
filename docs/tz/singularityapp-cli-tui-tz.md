@@ -87,9 +87,9 @@ singctl/
 
 Расположение (приоритет убывает):
 1. Флаг `--config /path/to/config.yaml`
-2. `$XDG_CONFIG_HOME/singctl/config.yaml`
-3. `~/.config/singctl/config.yaml`
-4. `./.singctl.yaml`
+2. `./.singctl.yaml`
+3. `$XDG_CONFIG_HOME/singctl/config.yaml`
+4. `~/.config/singctl/config.yaml`
 
 **Формат `config.yaml`:**
 ```yaml
@@ -633,4 +633,3 @@ singctl quick-add "Купить молоко @Личное #продукты !hi
 1. [API Server and Base Path | Swagger Docs](https://swagger.io/docs/specification/v3_0/api-host-and-base-path/)
 
 2. [Wiki. FAQ: Public resources - SingularityApp](https://singularity-app.com/wiki/faq-public-resources/) - Is there a public API? Yes! The public API is available in the Pro and Elite plans. You can learn mo...
-

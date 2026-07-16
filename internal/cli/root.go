@@ -35,7 +35,9 @@ func newRootCmd() *cobra.Command {
 	})
 
 	opts := &Opts
-	opts.Output = OutputTable
+	*opts = GlobalOptions{
+		Output: OutputTable,
+	}
 
 	pf := cmd.PersistentFlags()
 	pf.StringVar(&opts.ConfigPath, "config", "", "путь к файлу конфигурации")
@@ -51,6 +53,7 @@ func newRootCmd() *cobra.Command {
 	_ = viper.BindPFlag("debug", pf.Lookup("debug"))
 
 	cmd.AddCommand(newVersionCmd())
+	cmd.AddCommand(newConfigCmd())
 
 	return cmd
 }

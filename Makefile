@@ -42,7 +42,7 @@ build: ## Собрать бинарник singctl
 
 test: ## Запустить unit-тесты
 	@test -f go.mod || (echo "go.mod ещё не создан" >&2; exit 1)
-	go test ./...
+	go test ./... -v
 
 smoke: ## Smoke GET /v2/project (требует SINGCTL_TOKEN в .env)
 	@test -n "$(SINGCTL_TOKEN)" || (echo "Set SINGCTL_TOKEN in .env" >&2; exit 1)

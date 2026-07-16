@@ -125,7 +125,7 @@ Constraints: .specify/memory/constitution.md
 |---|---|
 | **Slug** | `config-token` |
 | **Depends** | F01 |
-| **In scope** | `config set-token\|show\|validate\|set`; резолвинг конфига (флаг → XDG → `~/.config` → `./.singctl.yaml`); формат `config.yaml` |
+| **In scope** | `config set-token\|show\|validate\|set`; резолвинг конфига (флаг → `./.singctl.yaml` → XDG → `~/.config`); формат `config.yaml` |
 | **Out of scope** | вызовы CRUD сущностей; маскирование токена углублённо (см. F29) |
 | **Входы** | ТЗ §5 |
 | **Апрув** | токен пишется/читается; `validate` при заглушке или после F04 |
@@ -139,7 +139,7 @@ Constraints: .specify/memory/constitution.md
 Feature ID: F02
 Slug: config-token
 Depends: F01
-Scope: команды config set-token|show|validate|set; резолвинг конфига (флаг → XDG → ~/.config → ./.singctl.yaml); формат config.yaml.
+Scope: команды config set-token|show|validate|set; резолвинг конфига (флаг → ./.singctl.yaml → XDG → ~/.config); формат config.yaml.
 Out of scope: вызовы CRUD сущностей; углублённое маскирование токена (см. F29).
 Inputs:
 - docs/tz/singularityapp-cli-tui-tz.md (§5)
