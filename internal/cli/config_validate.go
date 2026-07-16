@@ -22,15 +22,16 @@ func newConfigValidateCmd() *cobra.Command {
 				return err
 			}
 			if settings.Config.API.Token == "" {
-				return errors.New("токен не задан; используйте 'singctl config set-token'")
+				return api.Classify(errors.New("токен не задан; используйте 'singctl config set-token'"))
 			}
 
 			session, err := api.NewFromSettings(settings)
 			if err != nil {
-				return err
+				return api.Classify(err)
 			}
 			if err := session.ValidateConnectivity(context.Background()); err != nil {
-				return fmt.Errorf("удалённая проверка API не удалась: %w", err)
+				// ValidateConnectivity already returns ClassifiedError; keep As-friendly.
+				return err
 			}
 
 			fmt.Fprintln(cmd.OutOrStdout(), "Удалённая проверка API успешно пройдена.")
