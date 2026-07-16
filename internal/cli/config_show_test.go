@@ -18,6 +18,9 @@ func TestConfigShowWithoutConfigFailsSafely(t *testing.T) {
 		if err == nil {
 			t.Fatalf("expected error, got nil stdout=%q stderr=%q", stdout, stderr)
 		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
+		}
 		if strings.Contains(stdout, "test-token") || strings.Contains(stderr, "test-token") {
 			t.Fatalf("unexpected secret leak in output stdout=%q stderr=%q", stdout, stderr)
 		}
@@ -43,6 +46,12 @@ func TestConfigShowMasksTokenAndPrefersRuntimeOverride(t *testing.T) {
 		stdout, stderr, err := executeForTest([]string{"--token", "test-token-runtime", "config", "show"})
 		if err != nil {
 			t.Fatalf("executeForTest() error = %v stderr=%q stdout=%q", err, stderr, stdout)
+		}
+		if strings.TrimSpace(stderr) != "" {
+			t.Fatalf("stderr must be empty on success, got %q", stderr)
+		}
+		if strings.TrimSpace(stdout) == "" {
+			t.Fatal("stdout must contain config data")
 		}
 		if strings.Contains(stdout, "test-token-runtime") || strings.Contains(stdout, "test-token-file") {
 			t.Fatalf("full token leaked to stdout: %q", stdout)
@@ -73,6 +82,9 @@ func TestConfigShowOutputDefaultsToYAMLAndSupportsJSON(t *testing.T) {
 		if err != nil {
 			t.Fatalf("yaml show error = %v stderr=%q stdout=%q", err, yamlErr, yamlOut)
 		}
+		if strings.TrimSpace(yamlErr) != "" {
+			t.Fatalf("yaml show stderr must be empty, got %q", yamlErr)
+		}
 		var yamlDoc map[string]any
 		if err := yaml.Unmarshal([]byte(yamlOut), &yamlDoc); err != nil {
 			t.Fatalf("yaml output is invalid: %v\n%s", err, yamlOut)
@@ -81,6 +93,9 @@ func TestConfigShowOutputDefaultsToYAMLAndSupportsJSON(t *testing.T) {
 		jsonOut, jsonErr, err := executeForTest([]string{"-o", "json", "config", "show"})
 		if err != nil {
 			t.Fatalf("json show error = %v stderr=%q stdout=%q", err, jsonErr, jsonOut)
+		}
+		if strings.TrimSpace(jsonErr) != "" {
+			t.Fatalf("json show stderr must be empty, got %q", jsonErr)
 		}
 		var jsonDoc map[string]any
 		if err := json.Unmarshal([]byte(jsonOut), &jsonDoc); err != nil {
@@ -142,6 +157,9 @@ func TestConfigShowReportsInvalidYAMLSafely(t *testing.T) {
 		stdout, stderr, err := executeForTest([]string{"config", "show"})
 		if err == nil {
 			t.Fatalf("expected error, got nil stdout=%q stderr=%q", stdout, stderr)
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
 		}
 		if !strings.Contains(stderr, "YAML") && !strings.Contains(stderr, "конфиг") {
 			t.Fatalf("stderr must explain YAML/config issue, got %q", stderr)

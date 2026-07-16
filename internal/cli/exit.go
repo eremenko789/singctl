@@ -7,7 +7,8 @@ import (
 )
 
 // ExitCode maps an error to a process exit code for scriptability.
-// nil → 0; NotFound → 3; Config → 2; all other errors → 1.
+// nil → 0; NotFound → 3; Config → 2; all other errors (including CLI misuse) → 1.
+// Public table: docs/scriptability.md and specs/007-scriptability-exits/contracts/exit-codes-public.md.
 func ExitCode(err error) int {
 	if err == nil {
 		return 0

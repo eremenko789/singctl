@@ -33,6 +33,16 @@ func TestHelpRussianNoEntityCommands(t *testing.T) {
 		}
 	}
 
+	// F07: exit codes briefly documented in root help
+	for _, code := range []string{"0", "1", "2", "3"} {
+		if !strings.Contains(out, code) {
+			t.Errorf("help must mention exit code %s:\n%s", code, out)
+		}
+	}
+	if !strings.Contains(out, "scriptability") && !strings.Contains(out, "Коды выхода") {
+		t.Errorf("help must mention exit codes / scriptability docs:\n%s", out)
+	}
+
 	forbidden := []string{"task", "project", "habit", "tag", "time", "tui"}
 	lower := strings.ToLower(out)
 	for _, name := range forbidden {
@@ -70,9 +80,15 @@ func TestBareInvokeNonzero(t *testing.T) {
 }
 
 func TestUnknownCommand(t *testing.T) {
-	_, stderr, err := executeForTest([]string{"nosuch"})
+	stdout, stderr, err := executeForTest([]string{"nosuch"})
 	if err == nil {
 		t.Fatal("expected error for unknown command")
+	}
+	if ExitCode(err) != 1 {
+		t.Fatalf("ExitCode = %d, want 1", ExitCode(err))
+	}
+	if strings.TrimSpace(stdout) != "" {
+		t.Errorf("stdout should be empty, got %q", stdout)
 	}
 	if !strings.Contains(stderr, "неизвестная команда") {
 		t.Errorf("stderr missing RU unknown-command message: %q", stderr)
@@ -132,6 +148,12 @@ func TestInvalidOutputBlocksHelpAndVersion(t *testing.T) {
 			t.Errorf("args %v: expected validation error", args)
 			continue
 		}
+		if ExitCode(err) != 1 {
+			t.Errorf("args %v: ExitCode = %d, want 1", args, ExitCode(err))
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Errorf("args %v: stdout should be empty, got %q", args, stdout)
+		}
 		if !strings.Contains(stderr, "недопустимый формат") && !strings.Contains(stderr, "формат вывода") {
 			t.Errorf("args %v: missing RU validation message in stderr=%q", args, stderr)
 		}
@@ -146,9 +168,15 @@ func TestInvalidOutputBlocksHelpAndVersion(t *testing.T) {
 }
 
 func TestUnknownFlag(t *testing.T) {
-	_, stderr, err := executeForTest([]string{"--unknown-flag"})
+	stdout, stderr, err := executeForTest([]string{"--unknown-flag"})
 	if err == nil {
 		t.Fatal("expected error for unknown flag")
+	}
+	if ExitCode(err) != 1 {
+		t.Fatalf("ExitCode = %d, want 1", ExitCode(err))
+	}
+	if strings.TrimSpace(stdout) != "" {
+		t.Errorf("stdout should be empty, got %q", stdout)
 	}
 	if strings.TrimSpace(stderr) == "" {
 		t.Error("expected stderr message for unknown flag")

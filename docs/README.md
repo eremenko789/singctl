@@ -12,6 +12,7 @@
 | [makefile.md](./makefile.md) | Make-таргеты и `.env` |
 | [spec-kit.md](./spec-kit.md) | Отправные файлы vs результаты Spec Kit |
 | [feature-backlog.md](./feature-backlog.md) | Разбивка ТЗ на фичи F01–F39 для `/speckit-specify` |
+| [scriptability.md](./scriptability.md) | Коды выхода 0/1/2/3, stdout/stderr, pipe-контракт |
 
 ## Spec Kit
 

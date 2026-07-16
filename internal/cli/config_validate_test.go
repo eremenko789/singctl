@@ -26,6 +26,9 @@ func TestConfigValidateWithoutTokenFailsWithHint(t *testing.T) {
 		if ExitCode(err) != 2 {
 			t.Fatalf("ExitCode = %d, want 2", ExitCode(err))
 		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
+		}
 	})
 }
 
@@ -57,6 +60,9 @@ func TestConfigValidateWithTokenReportsRemoteSuccess(t *testing.T) {
 		}
 		if ExitCode(err) != 0 {
 			t.Fatalf("ExitCode = %d, want 0", ExitCode(err))
+		}
+		if strings.TrimSpace(stderr) != "" {
+			t.Fatalf("stderr must be empty on success, got %q", stderr)
 		}
 		if strings.Contains(stdout, "test-token-validate") || strings.Contains(stderr, "test-token-validate") {
 			t.Fatalf("full token leaked stdout=%q stderr=%q", stdout, stderr)
@@ -91,6 +97,9 @@ func TestConfigValidateNon2xxFailsWithoutRemoteOK(t *testing.T) {
 		if err == nil {
 			t.Fatalf("expected error, got nil stdout=%q stderr=%q", stdout, stderr)
 		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
+		}
 		combined := stdout + stderr
 		if strings.Contains(combined, "успешно") || strings.Contains(combined, "удалённо OK") {
 			t.Fatalf("must not claim remote OK, got stdout=%q stderr=%q", stdout, stderr)
@@ -118,12 +127,15 @@ func TestConfigValidateMock401CatalogExit1(t *testing.T) {
 			},
 		})
 
-		_, stderr, err := executeForTest([]string{"config", "validate"})
+		stdout, stderr, err := executeForTest([]string{"config", "validate"})
 		if err == nil {
 			t.Fatal("expected error")
 		}
 		if ExitCode(err) != 1 {
 			t.Fatalf("ExitCode = %d, want 1", ExitCode(err))
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
 		}
 		if !strings.Contains(stderr, "invalid token") || !strings.Contains(stderr, "set-token") {
 			t.Fatalf("stderr missing catalog text: %q", stderr)
@@ -148,12 +160,15 @@ func TestConfigValidateMock404CatalogExit3(t *testing.T) {
 			},
 		})
 
-		_, stderr, err := executeForTest([]string{"config", "validate"})
+		stdout, stderr, err := executeForTest([]string{"config", "validate"})
 		if err == nil {
 			t.Fatal("expected error")
 		}
 		if ExitCode(err) != 3 {
 			t.Fatalf("ExitCode = %d, want 3", ExitCode(err))
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
 		}
 		if !strings.Contains(stderr, "entity not found") {
 			t.Fatalf("stderr missing not-found catalog: %q", stderr)
@@ -182,12 +197,15 @@ func TestConfigValidateMock429Exhausted(t *testing.T) {
 			},
 		})
 
-		_, stderr, err := executeForTest([]string{"config", "validate"})
+		stdout, stderr, err := executeForTest([]string{"config", "validate"})
 		if err == nil {
 			t.Fatal("expected error")
 		}
 		if ExitCode(err) != 1 {
 			t.Fatalf("ExitCode = %d, want 1", ExitCode(err))
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
 		}
 		if hits.Load() != 3 {
 			t.Fatalf("hits = %d, want 3", hits.Load())
@@ -215,12 +233,15 @@ func TestConfigValidateMock5xx(t *testing.T) {
 			},
 		})
 
-		_, stderr, err := executeForTest([]string{"config", "validate"})
+		stdout, stderr, err := executeForTest([]string{"config", "validate"})
 		if err == nil {
 			t.Fatal("expected error")
 		}
 		if ExitCode(err) != 1 {
 			t.Fatalf("ExitCode = %d, want 1", ExitCode(err))
+		}
+		if strings.TrimSpace(stdout) != "" {
+			t.Fatalf("stdout must be empty on error, got %q", stdout)
 		}
 		if !strings.Contains(stderr, "server error") {
 			t.Fatalf("stderr missing server catalog: %q", stderr)
@@ -251,6 +272,9 @@ func TestConfigValidateUsesRuntimeTokenOverride(t *testing.T) {
 		stdout, stderr, err := executeForTest([]string{"--token", "test-token-runtime", "config", "validate"})
 		if err != nil {
 			t.Fatalf("expected success, got err=%v stderr=%q stdout=%q", err, stderr, stdout)
+		}
+		if strings.TrimSpace(stderr) != "" {
+			t.Fatalf("stderr must be empty on success, got %q", stderr)
 		}
 		if strings.Contains(stdout, "test-token-runtime") || strings.Contains(stderr, "test-token-runtime") {
 			t.Fatalf("full runtime token leaked stdout=%q stderr=%q", stdout, stderr)

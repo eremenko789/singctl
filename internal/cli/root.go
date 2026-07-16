@@ -3,6 +3,7 @@ package cli
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 
@@ -18,9 +19,13 @@ var Opts = GlobalOptions{
 
 func newRootCmd() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:           "singctl",
-		Short:         "CLI для SingularityApp",
-		Long:          "singctl — инструмент командной строки для работы с SingularityApp.\nВ этой версии доступны справка, версия и глобальные флаги; сущности и TUI появятся позже.",
+		Use:   "singctl",
+		Short: "CLI для SingularityApp",
+		Long: `singctl — инструмент командной строки для работы с SingularityApp.
+В этой версии доступны справка, версия и глобальные флаги; сущности и TUI появятся позже.
+
+Коды выхода: 0 успех; 1 ошибка API/операции/использования; 2 конфигурация; 3 не найдено.
+Подробнее: docs/scriptability.md`,
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		Version:       buildinfo.Version,
@@ -72,10 +77,18 @@ func Execute() error {
 
 // executeForTest runs with explicit args and captured streams (for unit tests).
 func executeForTest(args []string) (stdout, stderr string, err error) {
+	return executeForTestWithIn(args, strings.NewReader(""))
+}
+
+// executeForTestWithIn is like executeForTest but injects stdin (pipe / closed input).
+func executeForTestWithIn(args []string, in io.Reader) (stdout, stderr string, err error) {
 	var outBuf, errBuf strings.Builder
 	cmd := newRootCmd()
 	cmd.SetOut(&outBuf)
 	cmd.SetErr(&errBuf)
+	if in != nil {
+		cmd.SetIn(in)
+	}
 	cmd.SetArgs(args)
 
 	err = cmd.Execute()
