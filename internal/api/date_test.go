@@ -20,6 +20,22 @@ func TestParseDateAcceptsYYYYMMDD(t *testing.T) {
 	}
 }
 
+func TestTodayCalendarDateLocalYYYYMMDD(t *testing.T) {
+	t.Parallel()
+	got := api.TodayCalendarDate()
+	if len(got) != 10 {
+		t.Fatalf("len=%d got %q", len(got), got)
+	}
+	parsed, err := time.ParseInLocation("2006-01-02", got, time.Local)
+	if err != nil {
+		t.Fatalf("parse %q: %v", got, err)
+	}
+	now := time.Now().In(time.Local)
+	if parsed.Year() != now.Year() || parsed.Month() != now.Month() || parsed.Day() != now.Day() {
+		t.Fatalf("TodayCalendarDate=%q want local today %s", got, now.Format("2006-01-02"))
+	}
+}
+
 func TestParseDateRejectsInvalid(t *testing.T) {
 	t.Parallel()
 	for _, in := range []string{"", "28.11.2025", "2025/11/28", "2025-13-01", "2025-02-30", "not-a-date"} {

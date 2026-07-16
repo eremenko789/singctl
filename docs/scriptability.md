@@ -35,6 +35,8 @@
 | `csv-awk` | `singctl time list --output csv \| awk …` | `verifiable_now` (CSV fixture F06); `time list` — F08+ |
 | `xargs-create` | `xargs … singctl task create --title "{}"` | `contract_f08_plus` (независимый exit на каждый вызов; stdin-body create вне F07) |
 
-Общие свойства пайплайнов: при успехе exit `0` и данные только в stdout; при ошибке ненулевой код (`1`/`2`/`3`) и сообщение в stderr; в pipe нет ANSI (F06); `json`/`yaml` — корневой массив объектов.
+F08: примеры `task list` / `task create` выше проверяются unit/httptest harness’ом (`internal/cli/task_*_test.go`); live pipe E2E — F33.
+
+Общие свойства пайплайнов: при успехе exit `0` и данные только в stdout; при ошибке ненулевой код (`1`/`2`/`3`) и сообщение в stderr; в pipe нет ANSI (F06); `json`/`yaml` list — корневой массив; одна задача (get/create/…) — один объект (F08 SingleObject).
 
 Подробная матрица: `specs/007-scriptability-exits/contracts/pipe-scenarios.md`.

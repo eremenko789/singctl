@@ -41,3 +41,8 @@ func ParseDate(s string) (time.Time, error) {
 	}
 	return t.UTC(), nil
 }
+
+// TodayCalendarDate returns the local calendar day as YYYY-MM-DD.
+func TodayCalendarDate() string {
+	return time.Now().In(time.Local).Format("2006-01-02")
+}

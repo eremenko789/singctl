@@ -10,5 +10,8 @@ func renderJSON(w io.Writer, set RecordSet, opts RenderOptions) error {
 	data := mapsForJSONYAML(set, layout)
 	enc := json.NewEncoder(w)
 	enc.SetIndent("", "  ")
+	if opts.SingleObject {
+		return enc.Encode(data[0])
+	}
 	return enc.Encode(data)
 }

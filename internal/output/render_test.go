@@ -336,6 +336,115 @@ func TestRender_NilDates(t *testing.T) {
 	}
 }
 
+func TestRender_SingleObjectJSONYAML(t *testing.T) {
+	set := RecordSet{
+		Columns: []Column{
+			{Key: "id", Title: "ID"},
+			{Key: "title", Title: "Title"},
+		},
+		Rows: []map[string]any{
+			{"id": "T-1", "title": "One"},
+		},
+	}
+	opts := RenderOptions{DateLayout: DefaultDateLayout, Color: false, SingleObject: true}
+
+	var jsonBuf bytes.Buffer
+	opts.Format = FormatJSON
+	if err := Render(&jsonBuf, set, opts); err != nil {
+		t.Fatal(err)
+	}
+	trimmed := strings.TrimSpace(jsonBuf.String())
+	if strings.HasPrefix(trimmed, "[") {
+		t.Fatalf("json SingleObject must be object, got array: %s", trimmed)
+	}
+	var obj map[string]any
+	if err := json.Unmarshal(jsonBuf.Bytes(), &obj); err != nil {
+		t.Fatalf("json unmarshal object: %v\n%s", err, jsonBuf.String())
+	}
+	if obj["id"] != "T-1" || obj["title"] != "One" {
+		t.Fatalf("json object=%v", obj)
+	}
+
+	var yamlBuf bytes.Buffer
+	opts.Format = FormatYAML
+	if err := Render(&yamlBuf, set, opts); err != nil {
+		t.Fatal(err)
+	}
+	var yobj map[string]any
+	if err := yaml.Unmarshal(yamlBuf.Bytes(), &yobj); err != nil {
+		t.Fatalf("yaml unmarshal object: %v\n%s", err, yamlBuf.String())
+	}
+	if yobj["id"] != "T-1" || yobj["title"] != "One" {
+		t.Fatalf("yaml object=%v", yobj)
+	}
+
+	// table/csv still one data row
+	var tableBuf bytes.Buffer
+	opts.Format = FormatTable
+	if err := Render(&tableBuf, set, opts); err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(tableBuf.String(), "T-1") {
+		t.Fatalf("table missing id: %s", tableBuf.String())
+	}
+}
+
+func TestRender_ListStillArrayWithSingleObjectFalse(t *testing.T) {
+	set := RecordSet{
+		Columns: []Column{{Key: "id"}, {Key: "title"}},
+		Rows: []map[string]any{
+			{"id": "T-1", "title": "One"},
+		},
+	}
+	var buf bytes.Buffer
+	if err := Render(&buf, set, RenderOptions{Format: FormatJSON, SingleObject: false}); err != nil {
+		t.Fatal(err)
+	}
+	trimmed := strings.TrimSpace(buf.String())
+	if !strings.HasPrefix(trimmed, "[") {
+		t.Fatalf("list json must be array: %s", trimmed)
+	}
+}
+
+func TestRender_EmptyListStillEmptyArray(t *testing.T) {
+	set := RecordSet{
+		Columns: []Column{{Key: "id"}, {Key: "title"}},
+		Rows:    nil,
+	}
+	var buf bytes.Buffer
+	if err := Render(&buf, set, RenderOptions{Format: FormatJSON, SingleObject: false}); err != nil {
+		t.Fatal(err)
+	}
+	var arr []any
+	if err := json.Unmarshal(buf.Bytes(), &arr); err != nil {
+		t.Fatal(err)
+	}
+	if len(arr) != 0 {
+		t.Fatalf("want [], got %s", buf.String())
+	}
+}
+
+func TestRender_SingleObjectWrongRowCount(t *testing.T) {
+	cols := []Column{{Key: "id"}, {Key: "title"}}
+	opts := RenderOptions{Format: FormatJSON, SingleObject: true}
+
+	empty := RecordSet{Columns: cols, Rows: nil}
+	if err := Render(&bytes.Buffer{}, empty, opts); err == nil {
+		t.Fatal("SingleObject with 0 rows must error")
+	}
+
+	many := RecordSet{
+		Columns: cols,
+		Rows: []map[string]any{
+			{"id": "T-1", "title": "a"},
+			{"id": "T-2", "title": "b"},
+		},
+	}
+	if err := Render(&bytes.Buffer{}, many, opts); err == nil {
+		t.Fatal("SingleObject with >1 rows must error")
+	}
+}
+
 func TestRender_DateLayoutChangeAllFormats(t *testing.T) {
 	set, d1 := sampleFixture()
 	layoutA := "2006-01-02"

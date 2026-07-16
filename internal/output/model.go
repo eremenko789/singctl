@@ -19,9 +19,10 @@ type RecordSet struct {
 
 // RenderOptions controls Render behavior.
 type RenderOptions struct {
-	Format     Format
-	Color      bool   // ANSI only for table when true
-	DateLayout string // Go reference layout; empty/invalid → DefaultDateLayout
+	Format       Format
+	Color        bool   // ANSI only for table when true
+	DateLayout   string // Go reference layout; empty/invalid → DefaultDateLayout
+	SingleObject bool   // json/yaml: encode exactly one row as object (not array)
 }
 
 func (c Column) headerTitle() string {

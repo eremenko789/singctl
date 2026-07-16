@@ -43,12 +43,15 @@ func TestHelpRussianNoEntityCommands(t *testing.T) {
 		t.Errorf("help must mention exit codes / scriptability docs:\n%s", out)
 	}
 
-	forbidden := []string{"task", "project", "habit", "tag", "time", "tui"}
+	forbidden := []string{"project", "habit", "tag", "time", "tui"}
 	lower := strings.ToLower(out)
 	for _, name := range forbidden {
 		if hasCommandLine(lower, name) {
 			t.Errorf("help must not list entity/TUI command %q", name)
 		}
+	}
+	if !hasCommandLine(lower, "task") {
+		t.Errorf("help must list task command:\n%s", out)
 	}
 }
 

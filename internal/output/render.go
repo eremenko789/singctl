@@ -10,6 +10,12 @@ func Render(w io.Writer, set RecordSet, opts RenderOptions) error {
 	if err := validateRecordSet(set); err != nil {
 		return err
 	}
+	if opts.SingleObject {
+		n := len(set.Rows)
+		if n != 1 {
+			return fmt.Errorf("output: SingleObject requires exactly 1 row, got %d", n)
+		}
+	}
 	switch opts.Format {
 	case FormatJSON:
 		return renderJSON(w, set, opts)

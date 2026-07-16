@@ -22,7 +22,7 @@ func newRootCmd() *cobra.Command {
 		Use:   "singctl",
 		Short: "CLI для SingularityApp",
 		Long: `singctl — инструмент командной строки для работы с SingularityApp.
-В этой версии доступны справка, версия и глобальные флаги; сущности и TUI появятся позже.
+Доступны config, task (CRUD), справка и глобальные флаги; TUI появится позже.
 
 Коды выхода: 0 успех; 1 ошибка API/операции/использования; 2 конфигурация; 3 не найдено.
 Подробнее: docs/scriptability.md`,
@@ -59,6 +59,7 @@ func newRootCmd() *cobra.Command {
 
 	cmd.AddCommand(newVersionCmd())
 	cmd.AddCommand(newConfigCmd())
+	cmd.AddCommand(newTaskCmd())
 
 	return cmd
 }

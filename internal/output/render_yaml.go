@@ -9,7 +9,11 @@ import (
 func renderYAML(w io.Writer, set RecordSet, opts RenderOptions) error {
 	layout := layoutOf(opts)
 	data := mapsForJSONYAML(set, layout)
-	out, err := yaml.Marshal(data)
+	var payload any = data
+	if opts.SingleObject {
+		payload = data[0]
+	}
+	out, err := yaml.Marshal(payload)
 	if err != nil {
 		return err
 	}
