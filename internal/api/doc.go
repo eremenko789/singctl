@@ -2,5 +2,7 @@
 // session factory (auth, timeout), HTTP error taxonomy (Classify), 429 retry
 // transport, date parsing helper, connectivity probe, and entity facades
 // (TaskController_* via ListTasks/GetTask/…; ChecklistItemController_* via
-// ListChecklistItems/GetChecklistItem/CreateChecklistItem/UpdateChecklistItem/DeleteChecklistItem).
+// ListChecklistItems/GetChecklistItem/…; KanbanTaskStatusController_* via
+// ListKanbanLinks/GetKanbanLink/CreateKanbanLink/UpdateKanbanLink/DeleteKanbanLink
+// and MoveTaskToKanban).
 package api

@@ -37,6 +37,7 @@
 
 F08: примеры `task list` / `task create` выше проверяются unit/httptest harness’ом (`internal/cli/task_*_test.go`); live pipe E2E — F33.
 F09: `task checklist list` / `add` — тот же harness (`internal/cli/task_checklist_*_test.go`); pre-check задачи на list/add.
+F10: `task kanban list` / `task move` — harness (`internal/cli/task_kanban_*_test.go`, `task_move_test.go`); list без pre-check; create/move — pre-check задачи.
 
 Общие свойства пайплайнов: при успехе exit `0` и данные только в stdout; при ошибке ненулевой код (`1`/`2`/`3`) и сообщение в stderr; в pipe нет ANSI (F06); `json`/`yaml` list — корневой массив; одна задача (get/create/…) — один объект (F08 SingleObject).
 

@@ -5,20 +5,15 @@ import (
 	"testing"
 )
 
-func TestTaskHelpListsSevenSubcommands(t *testing.T) {
+func TestTaskHelpListsSubcommands(t *testing.T) {
 	stdout, stderr, err := executeForTest([]string{"task", "--help"})
 	if err != nil {
 		t.Fatalf("err=%v stderr=%q", err, stderr)
 	}
 	lower := strings.ToLower(stdout)
-	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash", "checklist"} {
+	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash", "checklist", "kanban", "move"} {
 		if !hasCommandLine(lower, name) {
 			t.Errorf("task --help missing %q:\n%s", name, stdout)
-		}
-	}
-	for _, bad := range []string{"kanban", "move"} {
-		if hasCommandLine(lower, bad) {
-			t.Errorf("task --help must not list %q", bad)
 		}
 	}
 }
@@ -43,9 +38,6 @@ func TestTaskSubcommandHelpFlagsAndNoteDelta(t *testing.T) {
 			if !strings.Contains(lower, strings.ToLower(n)) {
 				t.Errorf("%s --help missing %q:\n%s", sub, n, stdout)
 			}
-		}
-		if strings.Contains(lower, "kanban") {
-			t.Errorf("%s --help must not claim kanban:\n%s", sub, stdout)
 		}
 	}
 }
