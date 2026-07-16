@@ -2,7 +2,7 @@
 
 Источник: `docs/api/openapi.yaml` (снимок с `https://api.singularity-app.com/v2/api-json`).
 
-Требование constitution: клиент и CLI/TUI MUST закрывать **все** операции ниже.  
+Требование constitution: клиент и CLI/TUI MUST закрывать **все** операции ниже.
 Это входной документ для `/speckit.specify` / plan — не замена артефактов Spec Kit.
 
 **Всего операций: 51.** Схемы в `components.schemas` без путей (например `AuthenticateRequest`) в публичном REST не экспонируются и в CLI не нужны.
@@ -63,7 +63,7 @@
 
 ## Пробелы исходного ТЗ (закрыты этой матрицей)
 
-Черновик `docs/tz/…` описывал `habit track`, но не полный CRUD `/v2/habit-progress`.  
+Черновик `docs/tz/…` описывал `habit track`, но не полный CRUD `/v2/habit-progress`.
 Также не были явно названы `get` для checklist / column / section / kanban-link и полный CRUD `kanban-task-status` (кроме move). Матрица выше — канон покрытия.
 
 ## Как обновлять

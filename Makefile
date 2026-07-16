@@ -13,7 +13,7 @@ OPENAPI_JSON_URL ?= $(API_BASE_URL)/v2/api-json
 OPENAPI_YAML_URL ?= $(API_BASE_URL)/v2/api-yaml
 EXPECTED_API_OPS ?= 51
 
-.PHONY: help openapi-fetch api-coverage-check generate build test smoke
+.PHONY: help openapi-fetch api-coverage-check generate build test pre-commit smoke
 
 help: ## Показать доступные таргеты
 	@awk 'BEGIN {FS = ":.*##"; printf "Targets:\n" } /^[a-zA-Z0-9_-]+:.*?##/ { printf "  %-22s %s\n", $$1, $$2 }' $(MAKEFILE_LIST)
@@ -43,6 +43,10 @@ build: ## Собрать бинарник singctl
 test: ## Запустить unit-тесты
 	@test -f go.mod || (echo "go.mod ещё не создан" >&2; exit 1)
 	go test ./... -v
+
+pre-commit: ## Прогнать все pre-commit hooks по всем файлам
+	@command -v pre-commit >/dev/null || (echo "Install: pipx install pre-commit  (или brew install pre-commit)" >&2; exit 1)
+	pre-commit run --all-files
 
 smoke: ## Smoke GET /v2/project (требует SINGCTL_TOKEN в .env)
 	@test -n "$(SINGCTL_TOKEN)" || (echo "Set SINGCTL_TOKEN in .env" >&2; exit 1)

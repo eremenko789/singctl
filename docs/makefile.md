@@ -17,6 +17,7 @@ make help
 | `generate` | Генерация Go-клиента из OpenAPI (после появления `api/oapi-codegen.yaml`) |
 | `build` | Сборка `singctl` |
 | `test` | `go test` **с coverage**; MUST не допускать падения покрытия (constitution IX) |
+| `pre-commit` | Все hooks из `.pre-commit-config.yaml` по всем файлам (`pre-commit run --all-files`) |
 | `smoke` | Лёгкий smoke против API (нужен `SINGCTL_TOKEN` в `.env`) |
 
 Подробности codegen: [openapi-codegen.md](./openapi-codegen.md). Принцип: constitution §VIII.

@@ -11,10 +11,10 @@
 | OpenAPI JSON | https://api.singularity-app.com/v2/api-json |
 | OpenAPI YAML | https://api.singularity-app.com/v2/api-yaml |
 
-Локально: `docs/api/openapi.yaml`, `docs/api/openapi.json`.  
+Локально: `docs/api/openapi.yaml`, `docs/api/openapi.json`.
 Матрица покрытия CLI: `docs/api/coverage.md`.
 
-Base URL: `https://api.singularity-app.com`  
+Base URL: `https://api.singularity-app.com`
 Auth: `Authorization: Bearer <token>` (OpenAPI scheme `rest-token`).
 
 ## Команды
