@@ -103,7 +103,12 @@ func TestAuthorizationHeader(t *testing.T) {
 		{
 			name:  "keeps existing bearer prefix",
 			input: "Bearer test-token-aaaa",
-			want:  "Bearer Bearer test-token-aaaa",
+			want:  "Bearer test-token-aaaa",
+		},
+		{
+			name:  "blank token yields empty header",
+			input: "   ",
+			want:  "",
 		},
 	}
 

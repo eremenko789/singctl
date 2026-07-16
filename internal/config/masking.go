@@ -29,10 +29,14 @@ func MaskToken(token string) string {
 }
 
 // AuthorizationHeader builds an HTTP Authorization value with a Bearer prefix.
+// If token already starts with "Bearer " (after trim), it is returned as-is (FR-004a).
 func AuthorizationHeader(token string) string {
 	token = strings.TrimSpace(token)
 	if token == "" {
 		return ""
+	}
+	if strings.HasPrefix(token, "Bearer ") {
+		return token
 	}
 	return "Bearer " + token
 }

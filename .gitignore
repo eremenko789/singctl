@@ -42,3 +42,6 @@ Thumbs.db
 # Editor/IDE
 .idea/
 .vscode/
+
+# Python
+**/__pycache__/
