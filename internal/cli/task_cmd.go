@@ -20,11 +20,11 @@ func newTaskCmd() *cobra.Command {
 		Short: "Управление задачами",
 		Long: `Команды для списка, просмотра и изменения задач SingularityApp.
 
-Подкоманды: list, get, create, update, delete, archive, trash.
-Checklist, kanban и move в этой версии недоступны.`,
+Подкоманды: list, get, create, update, delete, archive, trash, checklist.
+Команды kanban и move в этой версии недоступны.`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return errors.New("укажите подкоманду: list, get, create, update, delete, archive или trash")
+			return errors.New("укажите подкоманду: list, get, create, update, delete, archive, trash или checklist")
 		},
 	}
 	cmd.AddCommand(newTaskListCmd())
@@ -34,6 +34,7 @@ Checklist, kanban и move в этой версии недоступны.`,
 	cmd.AddCommand(newTaskDeleteCmd())
 	cmd.AddCommand(newTaskArchiveCmd())
 	cmd.AddCommand(newTaskTrashCmd())
+	cmd.AddCommand(newTaskChecklistCmd())
 	return cmd
 }
 

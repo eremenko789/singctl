@@ -11,12 +11,12 @@ func TestTaskHelpListsSevenSubcommands(t *testing.T) {
 		t.Fatalf("err=%v stderr=%q", err, stderr)
 	}
 	lower := strings.ToLower(stdout)
-	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash"} {
+	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash", "checklist"} {
 		if !hasCommandLine(lower, name) {
 			t.Errorf("task --help missing %q:\n%s", name, stdout)
 		}
 	}
-	for _, bad := range []string{"checklist", "kanban", "move"} {
+	for _, bad := range []string{"kanban", "move"} {
 		if hasCommandLine(lower, bad) {
 			t.Errorf("task --help must not list %q", bad)
 		}
@@ -44,13 +44,8 @@ func TestTaskSubcommandHelpFlagsAndNoteDelta(t *testing.T) {
 				t.Errorf("%s --help missing %q:\n%s", sub, n, stdout)
 			}
 		}
-		for _, bad := range []string{"checklist", "kanban", "move"} {
-			if strings.Contains(lower, bad+" ") || hasCommandLine(lower, bad) {
-				// allow word "move" in unrelated text? avoid false positive — check Available Commands
-			}
-		}
-		if strings.Contains(lower, "checklist") || strings.Contains(lower, "kanban") {
-			t.Errorf("%s --help must not claim checklist/kanban:\n%s", sub, stdout)
+		if strings.Contains(lower, "kanban") {
+			t.Errorf("%s --help must not claim kanban:\n%s", sub, stdout)
 		}
 	}
 }
