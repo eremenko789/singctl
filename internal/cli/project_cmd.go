@@ -17,10 +17,10 @@ func newProjectCmd() *cobra.Command {
 		Short: "Управление проектами",
 		Long: `Команды для списка, просмотра и изменения проектов SingularityApp.
 
-Подкоманды: list, get, create, update, delete, archive, trash.`,
+Подкоманды: list, get, create, update, delete, archive, trash, section.`,
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return errors.New("укажите подкоманду: list, get, create, update, delete, archive или trash")
+			return errors.New("укажите подкоманду: list, get, create, update, delete, archive, trash или section")
 		},
 	}
 	cmd.AddCommand(newProjectListCmd())
@@ -30,6 +30,7 @@ func newProjectCmd() *cobra.Command {
 	cmd.AddCommand(newProjectDeleteCmd())
 	cmd.AddCommand(newProjectArchiveCmd())
 	cmd.AddCommand(newProjectTrashCmd())
+	cmd.AddCommand(newProjectSectionCmd())
 	return cmd
 }
 

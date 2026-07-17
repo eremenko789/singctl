@@ -11,12 +11,12 @@ func TestProjectHelpListsSubcommands(t *testing.T) {
 		t.Fatalf("err=%v stderr=%q", err, stderr)
 	}
 	lower := strings.ToLower(stdout)
-	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash"} {
+	for _, name := range []string{"list", "get", "create", "update", "delete", "archive", "trash", "section"} {
 		if !hasCommandLine(lower, name) {
 			t.Errorf("project --help missing %q:\n%s", name, stdout)
 		}
 	}
-	for _, forbidden := range []string{"section", "column"} {
+	for _, forbidden := range []string{"column"} {
 		if hasCommandLine(lower, forbidden) {
 			t.Errorf("project --help must not list %q as command:\n%s", forbidden, stdout)
 		}
